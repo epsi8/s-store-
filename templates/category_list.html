@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="h5">{{ category.name }}</h1>
+<div class="row g-3 mt-2">
+  {% for p in products %}
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100 shadow-sm">
+      <a href="{{ p.get_absolute_url }}"><img src="{{ p.image.url if p.image else static 'img/placeholder.png' }}" class="card-img-top" alt="{{ p.title }}"></a>
+      <div class="card-body">
+        <h5 class="card-title fs-6">{{ p.title|truncatechars:40 }}</h5>
+        <p class="card-text">₹ {{ p.price }}</p>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+    <p>No products in this category yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
