@@ -7,8 +7,9 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret-key-change")
-DEBUG = os.getenv("DEBUG", "1") == "1"
-ALLOWED_HOSTS = ["*"]
+DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -76,7 +77,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -90,5 +93,27 @@ RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+import os
+
+# Works locally and on Render
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
+# Local dev hosts
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
+# When running on Render, allow its hostname(s)
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSTNAME, ".onrender.com"]
+
+# Django 4.0+ needs full scheme for CSRF origins
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "https://*.onrender.com",
+]
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS += [f"https://{RENDER_EXTERNAL_HOSTNAME}"]
+
 
 
