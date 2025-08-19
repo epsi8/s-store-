@@ -159,3 +159,4 @@ LOGIN_URL = "login"
 
 # --- Default Auto Field ---
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
