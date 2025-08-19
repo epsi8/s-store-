@@ -1,0 +1,8 @@
+:root {
+  --brand: #0d6efd;
+}
+.card img { object-fit: cover; height: 180px; }
+@media (min-width: 992px) {
+  .card img { height: 220px; }
+}
+.navbar-brand { letter-spacing: .5px; }
