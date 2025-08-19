@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     "payments",
 
     # Cloudinary
-   'django.contrib.staticfiles',
+   
     'cloudinary',
     'cloudinary_storage',
   
