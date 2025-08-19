@@ -61,8 +61,10 @@ INSTALLED_APPS = [
     "payments",
 
     # Cloudinary
-    "cloudinary",
-    "cloudinary_storage",
+   'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
+  
 ]
 
 # --- Middleware ---
@@ -127,7 +129,21 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
+# Cloudinary config
+cloudinary.config( 
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
+    api_key = os.getenv("CLOUDINARY_API_KEY"), 
+    api_secret = os.getenv("CLOUDINARY_API_SECRET") 
+)
+
+# Media files storage (force Cloudinary)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Static files storage (optional, keep whitenoise for static)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # --- Media Files (Images → Cloudinary) ---
+
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
