@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
 <h1 class="h5 mb-3">Checkout</h1>
 
@@ -8,7 +10,12 @@
       <div class="card mb-2">
         <div class="card-body d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center gap-3">
-            <img src="{{ item.product.image.url if item.product.image else static 'img/placeholder.png' }}" width="60">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="80" height="80">
+            {% else %}
+              <img src="{% static 'img/placeholder.png' %}" alt="No image" width="80" height="80">
+            {% endif %}
+
             <div>
               <div class="fw-semibold">{{ item.product.title }}</div>
               <div class="text-muted small">₹ {{ item.product.price }} × {{ item.qty }}</div>
@@ -17,8 +24,11 @@
           <div>₹ {{ item.total }}</div>
         </div>
       </div>
+    {% empty %}
+      <p>No items in cart.</p>
     {% endfor %}
   </div>
+
   <div class="col-lg-4">
     <div class="card">
       <div class="card-body">
